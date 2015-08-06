@@ -6,11 +6,11 @@ function scenario(log, cb) {
   }
 
   var value = 97;
-  log.log(value)
+  log.info({value:value}, "scenario");
   
   function foo() {
     value *= 13;
-    log.log(value)
+    log.info({value:value}, "foo");
     cb(value);
   }
 
@@ -18,16 +18,17 @@ function scenario(log, cb) {
 
   function racer() {
     value &= 255;
-    log.log(value)
+    log.info({value:value}, "racer");
     setTimeout(foo, 0);
   }
 
-  value = 213;
-  log.log(value)
+ // value = 213;
+  log.error("should not set value here!", "scenario");
+  log.info({value:value}, "scenario");
 
   function thing() {
     value += 131;
-    log.log(value)
+    log.info({value:value}, "thing");
     process.nextTick(racer);
   }
 }
